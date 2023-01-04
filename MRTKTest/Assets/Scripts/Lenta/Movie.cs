@@ -15,7 +15,7 @@ public class Movie : MonoBehaviour
     {
         mt.mainTextureOffset = new Vector2(0f,Time.time * speed_of_conv * Time.deltaTime);
         Vector3 pos = rb.position;
-        rb.position += Vector3.right * speed * Time.fixedDeltaTime;
+        rb.position += Vector3.right * speed*(-1) * Time.fixedDeltaTime;
         rb.MovePosition(pos);
 
     }

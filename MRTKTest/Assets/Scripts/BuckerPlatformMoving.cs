@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Opc.UaFx.Client;
 public class BuckerPlatformMoving : MonoBehaviour
 {
     public Rigidbody rb;
+    private GameObject ServerScript;
     private Vector3 startpos;
     private float speed=0.1F;
     private float minY;
@@ -12,25 +13,21 @@ public class BuckerPlatformMoving : MonoBehaviour
     private int flag = 0;
     public void Get_Start_Pos()
     {
-        startpos = rb.position;
-        maxY = startpos[1] + 0.1F;
-        minY = startpos[1] - 0.3F;
-
+        ServerScript = GameObject.Find("ServerManager");
+        if (flag == 0)
+        {
+            startpos = rb.position;
+            maxY = startpos[1] + 0.1F;
+            minY = startpos[1] - 0.3F;
+            flag = 1;
+            ServerScript.GetComponent<ServerConnect>().move_of_bunker = "Moving Up";
+        }
     }
 
     // Update is called once per frame
-    public void MoveUp()
-    {
-        flag = 1;
-        
-    }
-    public void MoveDown()
-    {
-        flag = -1;
-    }
+    
     void FixedUpdate()
     {
-        Vector3 corrent_pos = startpos;
         if (flag == 1)
         {
             if (rb.position[1] < maxY)
@@ -40,7 +37,9 @@ public class BuckerPlatformMoving : MonoBehaviour
             }
             else
             {
+                ServerScript.GetComponent<ServerConnect>().move_of_bunker = "Moving Down";
                 flag = -1;
+                
             }
         }   
         if (flag == -1)
@@ -52,11 +51,16 @@ public class BuckerPlatformMoving : MonoBehaviour
             else
             {
                 flag = 1;
+                ServerScript.GetComponent<ServerConnect>().move_of_bunker = "Moving Up";
             }
         }
+        
     }
     public void Stop()
     {
         flag = 0;
+        ServerScript.GetComponent<ServerConnect>().move_of_bunker = "stay";
     }
+   
+
 }

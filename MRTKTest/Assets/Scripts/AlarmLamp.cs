@@ -10,19 +10,26 @@ public class AlarmLamp : MonoBehaviour
     public Material AlarmColor;
     public Material NeytralColor;
     public GameObject lamp;
+    private GameObject ServerConnect;
     private int flag = 0;
     // Update is called once per frame
+    private void Start()
+    {
+        ServerConnect = GameObject.Find("ServerManager");
+    }
     public void alarm()
     {
         switc();
 
         if (flag == 1)
         {
+            ServerConnect.GetComponent<ServerConnect>().alarm_status = true;
             lamp.GetComponent<MeshRenderer>().material = AlarmColor;
             light.range = 1;
         }
         else
         {
+            ServerConnect.GetComponent<ServerConnect>().alarm_status = false;
             lamp.GetComponent<MeshRenderer>().material = NeytralColor;
             light.range = 0;
         }
@@ -37,5 +44,7 @@ public class AlarmLamp : MonoBehaviour
         {
             flag = 0;
         }
+        
     }
+   
 }

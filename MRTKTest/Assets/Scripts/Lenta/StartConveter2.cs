@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Opc.UaFx.Client;
 public class StartConveter2 : MonoBehaviour
 {
     public GameObject Move;
@@ -17,19 +17,24 @@ public class StartConveter2 : MonoBehaviour
         Move.GetComponent<MoveCon2>().rb = lenta2;
         Move.GetComponent<MoveCon2>().mt = mat;
         Lenta.GetComponent<Rigidbody>().isKinematic = true;
+       
     }
     public void Stop()
     {
         Move.GetComponent<MoveCon2>().speed_of_conv = 0;
         Move.GetComponent<MoveCon2>().speed = 0;
-        Lenta.GetComponent<Rigidbody>().isKinematic = false;
+        
     }
     public void speed_up()
     {
         Move.GetComponent<MoveCon2>().speed += (float)(1) / 10;
+
+        
     }
     public void speed_down()
     {
         Move.GetComponent<MoveCon2>().speed -= (float)(1) / 10;
+        
     }
+
 }
