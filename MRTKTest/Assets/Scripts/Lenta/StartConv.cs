@@ -33,7 +33,7 @@ public class StartConv : MonoBehaviour
         Move.GetComponent<Movie>().mt = mat;
         Move.GetComponent<Movie>().enabled = true;
         BarabanSpiner = GameObject.Find("BarabanManager");
-        BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 100;
+        BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 480;
         working_status = true;
         
         
@@ -42,7 +42,7 @@ public class StartConv : MonoBehaviour
     {
         Move.GetComponent<Movie>().speed_of_conv = 0;
         Move.GetComponent<Movie>().speed = 0;
-        BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 100;
+        BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 480;
         working_status = false;
 
     }
@@ -50,16 +50,18 @@ public class StartConv : MonoBehaviour
     {
         if (working_status)
         {
+            Move.GetComponent<Movie>().speed_of_conv +=1;
             Move.GetComponent<Movie>().speed += (float)(1) / 10;
-            BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 100;
+            BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 480;
         }
     }
     public void speed_down()
     {
         if (working_status)
         {
+            Move.GetComponent<Movie>().speed_of_conv -= 1;
             Move.GetComponent<Movie>().speed -= (float)(1) / 10;
-            BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 100;
+            BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 480;
         }
     }
     public void EmergancyShotDown()
