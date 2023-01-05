@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Opc.UaFx.Client;
-using Opc.UaFx;
+
 
 public class ServerConnect : MonoBehaviour
 {
@@ -28,11 +28,14 @@ public class ServerConnect : MonoBehaviour
     }
     void GetValue()
     { 
-        
-        var current_speed_1 = client.ReadNode("ns=2;i=2");
-        var current_speed_2 = client.ReadNode("ns=2;i=3");
-        server_speed = float.Parse(current_speed_1.ToString());
-        serv_speed_2 = float.Parse(current_speed_2.ToString());
+        var current_server_speed_1 = client.ReadNode("ns=2;i=2");
+        var current_server_speed_2 = client.ReadNode("ns=2;i=3");
+        var current_server_alarm_status = client.ReadNode("ns=2;i=4");
+        var current_server_buncer_status=
+        server_speed = float.Parse(current_server_speed_1.ToString());
+        serv_speed_2 = float.Parse(current_server_speed_2.ToString());
+        alarm_serv_status = bool.Parse(current_server_alarm_status.ToString());
+        move_of_bunker_serv = current_server_buncer_status.ToString();
     }
     public void SetSpeedConv_1()
     {

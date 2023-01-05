@@ -11,9 +11,16 @@ public class StartConv : MonoBehaviour
     public GameObject Stend;
     public Rigidbody Aboba;
     public GameObject Lenta;
+    private GameObject ServerScript;
+    private GameObject AlarmLamp;
+    private GameObject BarabanSpiner;
+    private bool working_status = false;
+    
    
+
     public void PUSK()
     {
+
         Stend = GameObject.Find("unitystend");
         Lenta = GameObject.Find("lenta1");
         Stend.GetComponent<Rigidbody>().isKinematic=true;
@@ -25,6 +32,9 @@ public class StartConv : MonoBehaviour
         Move.GetComponent<Movie>().rb = lenta1;
         Move.GetComponent<Movie>().mt = mat;
         Move.GetComponent<Movie>().enabled = true;
+        BarabanSpiner = GameObject.Find("BarabanManager");
+        BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 100;
+        working_status = true;
         
         
     }
@@ -32,16 +42,37 @@ public class StartConv : MonoBehaviour
     {
         Move.GetComponent<Movie>().speed_of_conv = 0;
         Move.GetComponent<Movie>().speed = 0;
-       
+        BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 100;
+        working_status = false;
+
     }
     public void speed_up()
     {
-        Move.GetComponent<Movie>().speed += (float)(1) / 10;
-        
+        if (working_status)
+        {
+            Move.GetComponent<Movie>().speed += (float)(1) / 10;
+            BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 100;
+        }
     }
     public void speed_down()
     {
-        Move.GetComponent<Movie>().speed -= (float)(1) / 10;
-        
+        if (working_status)
+        {
+            Move.GetComponent<Movie>().speed -= (float)(1) / 10;
+            BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 100;
+        }
+    }
+    public void EmergancyShotDown()
+    {
+        Stop();
+        AlarmLamp = GameObject.Find("AlartLampManager");
+        ServerScript = GameObject.Find("ServerManager");
+        ServerScript.GetComponent<ServerConnect>().SetSpeedConv_1();
+        bool alarm_status = ServerScript.GetComponent<ServerConnect>().alarm_status;
+        if (alarm_status == false)
+        {
+            AlarmLamp.GetComponent<AlarmLamp>().alarm();
+            ServerScript.GetComponent<ServerConnect>().alarm_status = true;
+        }
     }
 }
