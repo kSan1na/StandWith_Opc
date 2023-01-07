@@ -24,6 +24,7 @@ public class ServerConnect : MonoBehaviour
         client = new OpcClient(opcUrl);
         MoveScript_1 = GameObject.Find("Moving_CONV_1");
         MoveScript_2 = GameObject.Find("Moving_CONV_2");
+        client.Connect();
     }
     void GetValue()
     { 

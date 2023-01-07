@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Opc.UaFx.Client;
-using MRTK;
+using Microsoft.MixedReality.Toolkit.UI;
 public class StartConv : MonoBehaviour
 {
     public GameObject Move;
@@ -15,9 +14,11 @@ public class StartConv : MonoBehaviour
     private GameObject AlarmLamp;
     private GameObject BarabanSpiner;
     private bool working_status = false;
-    
-   
-
+    public  GameObject speedBar;
+    private float StartspeedBarStatus=0.5f;
+    private float currentSpeedOfBar;
+    private float max_speed = 1;
+    private float min_speed = -1;
     public void PUSK()
     {
 
@@ -27,16 +28,17 @@ public class StartConv : MonoBehaviour
         Stend.GetComponent<BoxCollider>().enabled = false;
         lenta1 = Lenta.GetComponent<Rigidbody>();
         Move = GameObject.Find("Moving_CONV_1");
-        Move.GetComponent<Movie>().speed_of_conv = (float)1;
         Move.GetComponent<Movie>().speed = (float)(1)/10;
+        Move.GetComponent<Movie>().speed_of_conv = 1;
         Move.GetComponent<Movie>().rb = lenta1;
         Move.GetComponent<Movie>().mt = mat;
         Move.GetComponent<Movie>().enabled = true;
         BarabanSpiner = GameObject.Find("BarabanManager");
         BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 480;
         working_status = true;
-        
-        
+        speedBar.GetComponent<PinchSlider>().SliderValue = (Move.GetComponent<Movie>().speed / 2)+0.5f;
+        speedBar.GetComponent<SliderSounds>().playTickSounds = true;
+
     }
     public void Stop()
     {
@@ -44,25 +46,8 @@ public class StartConv : MonoBehaviour
         Move.GetComponent<Movie>().speed = 0;
         BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 480;
         working_status = false;
-
-    }
-    public void speed_up()
-    {
-        if (working_status)
-        {
-            Move.GetComponent<Movie>().speed_of_conv +=1;
-            Move.GetComponent<Movie>().speed += (float)(1) / 10;
-            BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 480;
-        }
-    }
-    public void speed_down()
-    {
-        if (working_status)
-        {
-            Move.GetComponent<Movie>().speed_of_conv -= 1;
-            Move.GetComponent<Movie>().speed -= (float)(1) / 10;
-            BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 480;
-        }
+        speedBar.GetComponent<PinchSlider>().SliderValue = (Move.GetComponent<Movie>().speed / 2) + 0.5f;
+        speedBar.GetComponent<SliderSounds>().playTickSounds = false;
     }
     public void EmergancyShotDown()
     {
@@ -74,7 +59,30 @@ public class StartConv : MonoBehaviour
         if (alarm_status == false)
         {
             AlarmLamp.GetComponent<AlarmLamp>().alarm();
-            ServerScript.GetComponent<ServerConnect>().alarm_status = true;
+            
         }
+     
     }
+    public void speed_bar()
+    {
+        //max = 1;
+        //min = -1;
+        
+        currentSpeedOfBar=speedBar.GetComponent<PinchSlider>().SliderValue;
+        if (currentSpeedOfBar != StartspeedBarStatus)
+        {
+            if (working_status)
+            {
+                float deltaSpeed = currentSpeedOfBar - StartspeedBarStatus;
+                Move.GetComponent<Movie>().speed = deltaSpeed * 2;
+                BarabanSpiner.GetComponent<BarabanSpiner>().speed_1 = Move.GetComponent<Movie>().speed * 480;
+                Move.GetComponent<Movie>().speed_of_conv = deltaSpeed * 20;
+            }
+            else
+            {
+                speedBar.GetComponent<PinchSlider>().SliderValue = 0.5f;
+            }
+        }
+        
+     }
 }

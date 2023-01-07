@@ -27,14 +27,14 @@ public class PositionOfMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         currentpos_panel = panel.transform.position;
         if ((currentpos_panel - currentpos_menu) != start_dist)
         {
             currentpos_menu = currentpos_menu + (currentpos_panel - startpos_panel);
             menu.transform.position = currentpos_menu;
             startpos_panel = currentpos_panel;
-            Debug.Log(currentpos_menu);
-            Debug.Log(currentpos_panel);
+            
         }
         
     }
