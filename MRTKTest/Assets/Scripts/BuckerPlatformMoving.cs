@@ -57,8 +57,6 @@ public class BuckerPlatformMoving : MonoBehaviour
                 ServerScript.GetComponent<ServerConnect>().move_of_bunker = "Moving Up";
             }
         }
-        Debug.Log(marker.GetComponent<PinchSlider>().SliderValue);
-        Debug.Log(deltaFromMax / 0.4f);
         marker.GetComponent<PinchSlider>().SliderValue = 1-deltaFromMax / 1f;
         
     }

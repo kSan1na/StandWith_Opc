@@ -20,7 +20,7 @@ public class ServerConnect : MonoBehaviour
     
     private void Start()
     {
-        string opcUrl = "opc.tcp://127.0.0.1:49300";
+        string opcUrl = "opc.tcp://192.168.0.148:49300";
         client = new OpcClient(opcUrl);
         MoveScript_1 = GameObject.Find("Moving_CONV_1");
         MoveScript_2 = GameObject.Find("Moving_CONV_2");

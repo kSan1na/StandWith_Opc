@@ -12,7 +12,7 @@ public class SpeedManager : MonoBehaviour
     public void zero()
     {
         Move = GameObject.Find("MOVE");
-        Move.GetComponent<Movie>().speed_of_conv=0;
+        Move.GetComponent<Movie>().speedOfConv = 0;
         Move = GameObject.Find("InverseMove");
         Move.GetComponent<ReverseMove>().speed_of_conv = 0;
 
@@ -20,7 +20,7 @@ public class SpeedManager : MonoBehaviour
     public void speed_up()
     {
         Move = GameObject.Find("MOVE");
-        Move.GetComponent<Movie>().speed_of_conv += 50;
+        Move.GetComponent<Movie>().speedOfConv += 50;
         Move = GameObject.Find("InverseMove");
         Move.GetComponent<ReverseMove>().speed_of_conv +=50;
 
@@ -28,7 +28,7 @@ public class SpeedManager : MonoBehaviour
     public void speed_down()
     {
         Move = GameObject.Find("MOVE");
-        Move.GetComponent<Movie>().speed_of_conv -= 50;
+        Move.GetComponent<Movie>().speedOfConv -= 50;
         Move = GameObject.Find("InverseMove");
         Move.GetComponent<ReverseMove>().speed_of_conv -= 50;
 
@@ -36,7 +36,7 @@ public class SpeedManager : MonoBehaviour
     public void restart()
     {
         Move = GameObject.Find("MOVE");
-        Move.GetComponent<Movie>().speed_of_conv = 100;
+        Move.GetComponent<Movie>().speedOfConv = 100;
         Move = GameObject.Find("InverseMove");
         Move.GetComponent<ReverseMove>().speed_of_conv = 100;
 
