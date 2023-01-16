@@ -9,8 +9,8 @@ public class ServerConnect : MonoBehaviour
     public OpcClient client;
     private float speed=0;
     private float server_speed=0;
-    private GameObject MoveScript_1;
-    private GameObject MoveScript_2;
+    [SerializeField] private Moving Conveyer1;
+    [SerializeField]  private Moving Conveyer2;
     private float speed_2=0;
     internal bool alarm_status = false;
     internal string move_of_bunker = "stay";
@@ -22,8 +22,6 @@ public class ServerConnect : MonoBehaviour
     {
         string opcUrl = "opc.tcp://192.168.0.148:49300";
         client = new OpcClient(opcUrl);
-        MoveScript_1 = GameObject.Find("Moving_CONV_1");
-        MoveScript_2 = GameObject.Find("Moving_CONV_2");
         client.Connect();
     }
     void GetValue()
@@ -31,7 +29,7 @@ public class ServerConnect : MonoBehaviour
         var current_server_speed_1 = client.ReadNode("ns=2;i=2");
         var current_server_speed_2 = client.ReadNode("ns=2;i=3");
         var current_server_alarm_status = client.ReadNode("ns=2;i=4");
-        var current_server_buncer_status=
+        var current_server_buncer_status= client.ReadNode("ns=2;i=5");
         server_speed = float.Parse(current_server_speed_1.ToString());
         serv_speed_2 = float.Parse(current_server_speed_2.ToString());
         alarm_serv_status = bool.Parse(current_server_alarm_status.ToString());
@@ -39,12 +37,12 @@ public class ServerConnect : MonoBehaviour
     }
     public void SetSpeedConv_1()
     {
-        speed = MoveScript_1.GetComponent<Movie>().speed;
+        
         client.WriteNode("ns=2;i=2", speed);
     }
     public void SetSpeedConv_2()
     {
-        speed_2 = MoveScript_2.GetComponent<MoveCon2>().speed;
+        
         client.WriteNode("ns=2;i=3", speed_2);
     }
     void SetAlarmStatus()
@@ -60,13 +58,14 @@ public class ServerConnect : MonoBehaviour
         GetValue();
         if (server_speed != speed)
         {
-            MoveScript_1.GetComponent<Movie>().speed = server_speed;
-            speed = server_speed;
+            SetSpeedConv_1();
+            server_speed = speed;
         }
         if (serv_speed_2 != speed_2)
         {
-            MoveScript_2.GetComponent<MoveCon2>().speed = server_speed ;
-            speed_2 = serv_speed_2;
+     
+            SetSpeedConv_2();
+            serv_speed_2 = speed_2;
         }
         if (alarm_status != alarm_serv_status)
         {
@@ -77,6 +76,9 @@ public class ServerConnect : MonoBehaviour
             Set_Bunker_Status();
             move_of_bunker_serv = move_of_bunker;
         }
+        speed_2 = Conveyer2._speed;
+        speed = Conveyer1._speed;
+
     }
     private void OnDisable()
     {

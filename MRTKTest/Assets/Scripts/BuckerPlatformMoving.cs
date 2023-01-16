@@ -12,8 +12,10 @@ public class BuckerPlatformMoving : MonoBehaviour
     private float maxY;
     private int flag = 0;
     private GameObject marker;
-    public void Get_Start_Pos()
-    {
+    private bool isFirst = true;
+    private int _previosFlag=1;
+    private void Get_Start_Pos()
+    {   
         marker = GameObject.Find("BuckerMarket");
         ServerScript = GameObject.Find("ServerManager");
         if (flag == 0)
@@ -23,11 +25,21 @@ public class BuckerPlatformMoving : MonoBehaviour
             minY = startpos[1] - 0.8F;
             flag = 1;
             ServerScript.GetComponent<ServerConnect>().move_of_bunker = "Moving Up";
+            isFirst = false;
         }
+    }
+    public void Pusk()
+    {
+        if (isFirst)
+        {
+            Get_Start_Pos();
+            
+        }
+        flag = _previosFlag;
     }
 
     // Update is called once per frame
-    
+
     void FixedUpdate()
     {
         float deltaFromMax = maxY - rb.position[1];
@@ -57,14 +69,15 @@ public class BuckerPlatformMoving : MonoBehaviour
                 ServerScript.GetComponent<ServerConnect>().move_of_bunker = "Moving Up";
             }
         }
-        marker.GetComponent<PinchSlider>().SliderValue = 1-deltaFromMax / 1f;
+        if(flag!=0) marker.GetComponent<PinchSlider>().SliderValue = 1-deltaFromMax / 1f;
         
     }
     public void Stop()
     {
+        _previosFlag = flag;
         flag = 0;
         ServerScript.GetComponent<ServerConnect>().move_of_bunker = "stay";
     }
-   
+    
 
 }
